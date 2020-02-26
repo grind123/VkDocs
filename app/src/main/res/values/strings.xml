@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">VkSecondRound</string>
+    <integer name="com_vk_sdk_AppId">7336016</integer>
+</resources>
