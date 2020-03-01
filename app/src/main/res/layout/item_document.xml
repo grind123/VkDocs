@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/image"
-        app:layout_constraintRight_toLeftOf="@id/imv_actions"
+        app:layout_constraintRight_toLeftOf="@id/imv_edit_button"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
@@ -49,8 +49,8 @@
         app:layout_constraintLeft_toLeftOf="@id/tv_file_name"
         app:layout_constraintRight_toRightOf="@id/tv_file_name"/>
     <ImageView
-        android:id="@+id/imv_actions"
-        android:layout_width="wrap_content"
+        android:id="@+id/imv_edit_button"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_more_vertical_16"
         android:tint="@color/hintTextColor"

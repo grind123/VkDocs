@@ -1,22 +1,22 @@
 package com.grind.vksecondround.adapters
 
-import Item
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.grind.vksecondround.App
 import com.grind.vksecondround.R
+import com.grind.vksecondround.models.Item
 import com.grind.vksecondround.utils.DpPxUtil
 import com.grind.vksecondround.utils.StringConverter
-import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class DocsListAdapter: RecyclerView.Adapter<DocsListAdapter.DocHolder>() {
+class DocsListAdapter(private val listener: ActionListener): RecyclerView.Adapter<DocsListAdapter.DocHolder>() {
 
     private var items = listOf<Item>()
 
@@ -43,6 +43,9 @@ class DocsListAdapter: RecyclerView.Adapter<DocsListAdapter.DocHolder>() {
         holder.information.text = "${item.ext.toUpperCase()} · " +
                 "${StringConverter.convertFileSize(item.size)} · " +
                 "${dateFormat.format(Date(item.date * 1000L))} "
+        holder.editButton.setOnClickListener { listener.onEditButtonClick(it, item) }
+        holder.itemView.setOnClickListener{ listener.onItemClick(item)}
+
     }
 
     override fun getItemCount(): Int {
@@ -51,7 +54,9 @@ class DocsListAdapter: RecyclerView.Adapter<DocsListAdapter.DocHolder>() {
 
     fun setItems(items: List<Item>){
         this.items = items
-        notifyDataSetChanged()
+    }
+    fun getItems(): List<Item>{
+        return items
     }
 
 
@@ -61,7 +66,7 @@ class DocsListAdapter: RecyclerView.Adapter<DocsListAdapter.DocHolder>() {
                 .getDrawable(R.drawable.ic_placeholder_document_text_72, App.appContext!!.theme))
             2 -> image.setImageDrawable(App.appContext!!.resources
                 .getDrawable(R.drawable.ic_placeholder_document_archive_72, App.appContext!!.theme))
-            3, 4 -> Picasso.get().load(item.url).fit().centerCrop().into(image)
+            3, 4 -> Glide.with(App.appContext!!).load(item.url).centerCrop().into(image)
 
             5 -> image.setImageDrawable(App.appContext!!.resources
                 .getDrawable(R.drawable.ic_placeholder_document_music_72, App.appContext!!.theme))
@@ -79,7 +84,11 @@ class DocsListAdapter: RecyclerView.Adapter<DocsListAdapter.DocHolder>() {
         val image: ImageView = v.findViewById(R.id.imv_file_preview)
         val name: TextView = v.findViewById(R.id.tv_file_name)
         val information: TextView = v.findViewById(R.id.tv_file_information)
+        val editButton: ImageView = v.findViewById(R.id.imv_edit_button)
     }
 
-
+    interface ActionListener{
+        fun onEditButtonClick(anchor: View, item: Item)
+        fun onItemClick(item: Item)
+    }
 }
